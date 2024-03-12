@@ -12,6 +12,7 @@ import java.util.Queue;
 public class MergeTwoSeq {
 
     static class Node<T> {
+
         int value;
         Node<T> next;
 
@@ -21,6 +22,9 @@ public class MergeTwoSeq {
     }
 
     public static void main(String[] args) {
+        int[] arrA = new int[]{1, 3, 5, 6, 10};
+        int[] arrB = new int[]{2, 5, 7, 9};
+        printMergedArray(arrA, arrB);
         // merge list
         List<Integer> listA = Arrays.asList(1, 3, 7, 8);
         List<Integer> listB = Arrays.asList(4, 5, 9, 11, 12);
@@ -45,6 +49,34 @@ public class MergeTwoSeq {
         Node<Integer> headB = new Node<>(1);
         headB.next = new Node<>(6);
         printMergedLink(headA, headB);
+    }
+
+    private static void printMergedArray(int[] arrA, int[] arrB) {
+        if (arrA == null || arrB == null) {
+            int[] merged = arrA != null ? arrA : arrB;
+            System.out.println(Arrays.toString(merged));
+            return;
+        }
+
+        int[] merged = new int[arrA.length + arrB.length];
+        int idx = 0, ptrA = 0, ptrB = 0;
+        while (ptrA < arrA.length && ptrB < arrB.length) {
+            if (arrA[ptrA] < arrB[ptrB]) {
+                merged[idx++] = arrA[ptrA++];
+            } else {
+                merged[idx++] = arrB[ptrB++];
+            }
+        }
+        
+        if (ptrA < arrA.length){
+            System.arraycopy(arrA, ptrA, merged, idx, arrA.length - ptrA);
+        }
+
+        if (ptrB < arrB.length){
+            System.arraycopy(arrB, ptrB, merged, idx, arrB.length - ptrB);
+        }
+
+        System.out.println(Arrays.toString(merged));
     }
 
     private static void printMergedLink(Node<Integer> headA, Node<Integer> headB) {

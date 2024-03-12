@@ -10,33 +10,32 @@ public class ReverseList {
         head.next = new Node<>("b");
         head.next.next = new Node<>("c");
 
-        var newHead = reverse(head);
+        var newHead = head.reverse();
         System.out.println(newHead);
-
-    }
-
-    public static Node<String> reverse(Node<String> head){
-        if (head == null || head.next == null){
-            return head;
-        }
-
-        var curr = head;
-        Node<String> pre = null;
-        while (curr != null){
-            Node<String> tmp = curr.next;
-            curr.next = pre;
-            pre = curr;
-            curr = tmp;
-        }
-        return pre;
     }
 
     static class Node<T> {
+
         T value;
         Node<T> next;
 
         public Node(T value) {
             this.value = value;
+        }
+
+        // a -> b -> c
+        // a <- b <- c
+        public Node<T> reverse() {
+            Node<T> current = this;
+            Node<T> next = null;
+            while (current != null) {
+                Node<T> tmp = current.next;
+                current.next = next;
+                next = current;
+                current = tmp;
+            }
+
+            return next;
         }
     }
 }

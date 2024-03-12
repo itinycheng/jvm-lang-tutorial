@@ -35,6 +35,7 @@ public class SimulationQueue<E> {
             while (elementCount >= capacity) {
                 notFull.await();
             }
+
             inStack.push(e);
             elementCount++;
             notEmpty.signal();
@@ -49,15 +50,14 @@ public class SimulationQueue<E> {
             while (elementCount <= 0) {
                 notEmpty.await();
             }
-            E temp = null;
-            if (!outStack.isEmpty()) {
-                temp = outStack.pop();
-            } else if (!inStack.isEmpty()) {
+
+            if (outStack.isEmpty()) {
                 while (!inStack.isEmpty()) {
                     outStack.push(inStack.pop());
                 }
-                temp = outStack.pop();
             }
+
+            E temp = outStack.pop();
             elementCount--;
             notFull.signal();
             return temp;

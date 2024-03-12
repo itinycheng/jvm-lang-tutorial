@@ -43,5 +43,6 @@ public class TreeScanner {
             }
         }
         System.out.println(last);
+        System.out.println(TREE_NODE);
     }
 }

@@ -27,6 +27,27 @@ public class TreeNode<T> {
         return Math.max(deepL, deepR) + 1;
     }
 
+    public void flip() {
+        var tree = this;
+
+        if (tree.left == null && tree.right == null) {
+            return;
+        }
+
+        var left = tree.left;
+        if (left != null) {
+            left.flip();
+        }
+
+        var right = tree.right;
+        if (right != null) {
+            right.flip();
+        }
+
+        tree.left = right;
+        tree.right = left;
+    }
+
     @Override
     public String toString() {
         String leftStr = null;
@@ -39,15 +60,18 @@ public class TreeNode<T> {
             rightStr = right.toString();
         }
 
-        return String.join(", ", String.valueOf(value), leftStr,  rightStr);
+        return String.join(", ", String.valueOf(value), leftStr, rightStr);
     }
 
     public static void main(String[] args) {
         TreeNode<Integer> one = new TreeNode<>(1);
         one.value = 1;
-        one.left = new TreeNode<>(1);
-        one.right = new TreeNode<>(2);
-        one.right.right = new TreeNode<>(3);
+        one.left = new TreeNode<>(2);
+        one.right = new TreeNode<>(3);
+        one.right.right = new TreeNode<>(4);
         System.out.println(one.depth());
+
+        one.flip();
+        System.out.println(one);
     }
 }

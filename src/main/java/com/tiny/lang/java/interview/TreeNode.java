@@ -27,6 +27,63 @@ public class TreeNode<T> {
         return Math.max(deepL, deepR) + 1;
     }
 
+    public TreeNode<T> smallestCommonParent(TreeNode<T> childA, TreeNode<T> childB) {
+        if (childA == null || childB == null) {
+            return null;
+        }
+
+        if (this == childA && this == childB) {
+            return this;
+        }
+
+        TreeNode<T> parent = null;
+        if (this.contains(childA) && this.contains(childB)) {
+            parent = this;
+        }
+
+        if (parent == null) {
+            return null;
+        }
+
+        while (parent.left != null || parent.right != null) {
+            boolean flag = false;
+            if (parent.left != null
+                && parent.left.contains(childA)
+                && parent.left.contains(childB)) {
+                parent = parent.left;
+                flag = true;
+            } else if (parent.right != null
+                && parent.right.contains(childA)
+                && parent.right.contains(childB)) {
+                parent = parent.right;
+                flag = true;
+            }
+
+            if (!flag) {
+                break;
+            }
+        }
+
+        return parent;
+    }
+
+    private boolean contains(TreeNode<T> node) {
+        if (node == this) {
+            return true;
+        }
+
+        boolean flag = false;
+        if (this.left != null) {
+            flag = this.left.contains(node);
+        }
+
+        if (!flag && this.right != null) {
+            flag = this.right.contains(node);
+        }
+
+        return flag;
+    }
+
     public void flip() {
         var tree = this;
 
@@ -68,10 +125,15 @@ public class TreeNode<T> {
         one.value = 1;
         one.left = new TreeNode<>(2);
         one.right = new TreeNode<>(3);
-        one.right.right = new TreeNode<>(4);
+        one.right.left = new TreeNode<>(4);
+        one.right.right = new TreeNode<>(5);
+        one.right.right.left = new TreeNode<>(6);
         System.out.println(one.depth());
 
-        one.flip();
-        System.out.println(one);
+        // one.flip();
+        // System.out.println(one);
+
+        TreeNode<Integer> integerTreeNode = one.smallestCommonParent(one.right.left, one.right.right.left);
+        System.out.println(integerTreeNode.value);
     }
 }

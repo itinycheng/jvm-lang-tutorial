@@ -3,12 +3,13 @@ package com.tiny.lang.java.interview;
 /**
  * name.
  */
-public class MaxLengthOfSubSeq {
+public class SubSeq {
 
     public static void main(String[] args) {
         var arr = new int[]{10, 9, 2, 5, 3, 7, 101, 18, 19, 20, 21, 22};
-        System.out.println(maxSubSeqLength(arr)); ;
+        System.out.println(maxSubSeqLength(arr));
         System.out.println(maxContinuousSubSeqLength(arr));
+        System.out.println(longCommonSubSeq("adfdssdf", "dfsdssdggs"));
     }
 
     private static int maxContinuousSubSeqLength(int[] arr) {
@@ -56,5 +57,36 @@ public class MaxLengthOfSubSeq {
         }
 
         return max;
+    }
+
+    public static int longCommonSubSeq(String a, String b) {
+        var aChars = a.toCharArray();
+        var bChars = b.toCharArray();
+
+        int max = 0;
+        for (int i = 0; i < aChars.length; i++) {
+            for (int j = 0; j < bChars.length; ) {
+                if (aChars[i] == bChars[j]) {
+                    int subSeqLen = commonSubSeqLen(aChars, i, bChars, j);
+                    j += subSeqLen;
+                    max = Math.max(max, subSeqLen);
+                } else {
+                    j++;
+                }
+            }
+        }
+
+        return max;
+    }
+
+    private static int commonSubSeqLen(char[] aChars, int aBegin, char[] bChars, int bBegin) {
+        int num = 0;
+        while (aBegin < aChars.length
+            && bBegin < bChars.length
+            && aChars[aBegin++] == bChars[bBegin++]) {
+            num++;
+        }
+
+        return num;
     }
 }
